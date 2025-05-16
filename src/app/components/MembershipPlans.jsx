@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const plans = [
@@ -80,11 +81,13 @@ const MembershipPlans = () => {
                 </ul>
               </div>
               <div className="p-6">
-                <button
-                  className={`bg-gradient-to-r ${plan.bgColor} cursor-pointer hover:opacity-95 hover:shadow-xl transition-all duration-300 text-white font-bold w-full py-3 rounded-full`}
-                >
-                  {plan.buttonText}
-                </button>
+                <Link href="/contact">
+                  <button
+                    className={`bg-gradient-to-r ${plan.bgColor} cursor-pointer hover:opacity-95 hover:shadow-xl transition-all duration-300 text-white font-bold w-full py-3 rounded-full`}
+                  >
+                    {plan.buttonText}
+                  </button>
+                </Link>
               </div>
             </motion.div>
           ))}

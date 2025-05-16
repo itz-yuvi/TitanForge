@@ -20,8 +20,9 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-gray-300">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/classes">Classes</Link></li>
-            <li><Link href="/trainers">Trainers</Link></li>
-            <li><Link href="/membership">Membership</Link></li>
+            {/* <li><Link href="/trainers">Trainers</Link></li> */}
+            <li><Link href="/about">About</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
           </ul>
         </div>
 

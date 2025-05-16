@@ -22,7 +22,7 @@ export default function Header() {
           <Link href="/" className="hover:text-red-500 transition">Home</Link>
           <Link href="/about" className="hover:text-red-500 transition">About</Link>
           <Link href="/classes" className="hover:text-red-500 transition">Classes</Link>
-          <Link href="/trainers" className="hover:text-red-500 transition">Trainers</Link>
+          {/* <Link href="/trainers" className="hover:text-red-500 transition">Trainers</Link> */}
           <Link href="/contact" className="hover:text-red-500 transition">Contact</Link>
         </nav>
 
