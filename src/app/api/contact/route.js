@@ -1,37 +1,33 @@
-import nodemailer from 'nodemailer';
+// src/app/api/contact/route.js
+import clientPromise from '../../lib/mongodb';
+import { validateContactData } from '../../models/contact';
 
 export async function POST(req) {
-  const { name, email, message } = await req.json();
-
-  // Validate required fields
-  if (!name || !email || !message) {
-    return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
-  }
-
   try {
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail', // You can also use "smtp.mailtrap.io" or others
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
+    const body = await req.json();
+    const { valid, error } = validateContactData(body);
+
+    if (!valid) {
+      return new Response(JSON.stringify({ error }), { status: 400 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db('titanforge'); // You can rename this
+    const collection = db.collection('contacts');
+
+    const result = await collection.insertOne({
+      name: body.name,
+      email: body.email,
+      message: body.message,
+      createdAt: new Date(),
     });
 
-    // Email details
-    const mailOptions = {
-      from: email,
-      to: process.env.EMAIL_USER,
-      subject: `Message from ${name}`,
-      text: message,
-    };
-
-    // Send mail
-    await transporter.sendMail(mailOptions);
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return new Response(JSON.stringify({ success: true, id: result.insertedId }), {
+      status: 201,
+    });
   } catch (err) {
-    console.error('Email error:', err);
-    return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500 });
+    return new Response(JSON.stringify({ error: 'Server error' }), {
+      status: 500,
+    });
   }
 }
